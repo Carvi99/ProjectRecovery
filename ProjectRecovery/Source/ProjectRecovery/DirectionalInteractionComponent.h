@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Direction.h"
+#include "InteractionDirection.h"
 #include "InteractionResult.h"
 #include "DirectionalInteractionComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnInteractionDelegate, UDirectionalInteractionComponent*, Interactor, EInteractionResult, Result);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDirectionChangedDelegate, EDirection, Direction);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDirectionChangedDelegate, EInteractionDirection, Direction);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTRECOVERY_API UDirectionalInteractionComponent : public UActorComponent
@@ -21,10 +21,10 @@ public:
 	UDirectionalInteractionComponent();
 
 	UFUNCTION(BlueprintCallable)
-	void Interact();
+	void Interact(EInteractionDirection InteractionDirection);
 
 	UFUNCTION(BlueprintCallable)
-	void SetDirection(EDirection NewDirection);
+	void SetDirection(EInteractionDirection NewDirection);
 
 	UFUNCTION(BlueprintCallable)
 	void SetOpponent(UDirectionalInteractionComponent* NewOpponent);
@@ -48,10 +48,10 @@ protected:
 	TObjectPtr<UDirectionalInteractionComponent> Opponent = nullptr;
 
 	UPROPERTY()
-	TEnumAsByte<EDirection> Direction;
+	TEnumAsByte<EInteractionDirection> Direction;
 
 	UPROPERTY(EditAnywhere)
-	float MaxDistance = 300.0;
+	float MaxDistance = 100.0;
 
 	bool IsInteracting = false;
 
