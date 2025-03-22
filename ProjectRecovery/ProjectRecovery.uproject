@@ -7,7 +7,10 @@
 		{
 			"Name": "ProjectRecovery",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
 		}
 	],
 	"Plugins": [
@@ -40,6 +43,10 @@
 		},
 		{
 			"Name": "AnimationLocomotionLibrary",
+			"Enabled": true
+		},
+		{
+			"Name": "GizmoFramework",
 			"Enabled": true
 		}
 	]
