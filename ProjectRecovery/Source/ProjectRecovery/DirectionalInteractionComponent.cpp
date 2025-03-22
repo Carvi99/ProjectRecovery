@@ -5,20 +5,20 @@
 // Sets default values for this component's properties
 UDirectionalInteractionComponent::UDirectionalInteractionComponent(){}
 
-void UDirectionalInteractionComponent::Interact(EInteractionDirection InteractionDirection)
+void UDirectionalInteractionComponent::Interact(EInteractionDirection InteractionDirection, float Cooldown)
 {
-
+	if (InteractionDirection == EInteractionDirection::None) { return; }
 	if (IsInteracting) { return; }
 
 	IsInteracting = true;
 
 	FTimerHandle Handle;
-	GetWorld()->GetTimerManager().SetTimer(Handle, [this] {IsInteracting = false; }, 0.3f, false);
+	GetWorld()->GetTimerManager().SetTimer(Handle, [this] {IsInteracting = false; }, Cooldown, false);
 
 	SetDirection(InteractionDirection);
 
 	if(!IsValid(Opponent)) { return; }
-	if (FVector::Distance(Opponent->GetOwner()->GetActorLocation(), GetOwner()->GetActorLocation()) < MaxDistance) { return; }
+	if (FVector::Distance(Opponent->GetOwner()->GetActorLocation(), GetOwner()->GetActorLocation()) > MaxDistance) { return; }
 
 	// Interaction always successful if Forward Vectors align to an extent
 	if (Opponent->GetOwner()->GetActorForwardVector().Dot(GetOwner()->GetActorForwardVector()) > 0.5)
