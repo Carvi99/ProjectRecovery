@@ -65,3 +65,11 @@ void UCharacterStatsComponent::DecreaseCurrentHealth(int Points)
 		OnCurrentHealthChanged.Broadcast(CurrentHealth, -Points);
 	}
 }
+
+void UCharacterStatsComponent::LoadStatValues(int HealthPoints, int CurrentHealthPoints, int StrengthPoints)
+{
+	Health = HealthPoints;
+	CurrentHealth = CurrentHealthPoints;
+	Strength = StrengthPoints;
+
+}

@@ -32,6 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DecreaseCurrentHealth(int Points);
 
+	UFUNCTION(BlueprintCallable)
+	void LoadStatValues(int HealthPoints, int CurrentHealthPoints, int StrengthPoints);
+
 	// -- Delegates --
 
 	UPROPERTY(BlueprintAssignable)
