@@ -7,6 +7,9 @@ UDirectionalInteractionComponent::UDirectionalInteractionComponent(){}
 
 void UDirectionalInteractionComponent::Interact()
 {
+
+	if (IsInteracting) { return; }
+
 	IsInteracting = true;
 
 	FTimerHandle Handle;
