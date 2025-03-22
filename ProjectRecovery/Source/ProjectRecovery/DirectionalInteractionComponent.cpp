@@ -28,7 +28,7 @@ void UDirectionalInteractionComponent::Interact(EInteractionDirection Interactio
 		return;
 	}
 
-	if (Opponent->Direction == EInteractionDirectionUtils::BlockingDirection(Direction))
+	if (Opponent->Direction == GetBlockingDirection(Direction))
 	{
 		if (Opponent->IsInteracting)
 		{
@@ -69,4 +69,25 @@ void UDirectionalInteractionComponent::SetDirection(EInteractionDirection NewDir
 void UDirectionalInteractionComponent::SetOpponent(UDirectionalInteractionComponent* NewOpponent)
 {
 	Opponent = NewOpponent;
+}
+
+EInteractionDirection UDirectionalInteractionComponent::GetBlockingDirection(EInteractionDirection Direction)
+{
+	switch (Direction)
+	{
+	case North:
+		return North;
+
+	case East:
+		return West;
+
+	case South:
+		return South;
+
+	case West:
+		return East;
+
+	default:
+		return None;
+	}
 }

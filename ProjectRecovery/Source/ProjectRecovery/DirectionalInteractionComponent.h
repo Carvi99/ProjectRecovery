@@ -41,6 +41,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnDirectionChangedDelegate OnOpponentDirectionChange;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	static EInteractionDirection GetBlockingDirection(EInteractionDirection Direction);
+
 
 protected:
 
