@@ -5,7 +5,7 @@
 // Sets default values for this component's properties
 UDirectionalInteractionComponent::UDirectionalInteractionComponent(){}
 
-void UDirectionalInteractionComponent::Interact()
+void UDirectionalInteractionComponent::Interact(EInteractionDirection InteractionDirection)
 {
 
 	if (IsInteracting) { return; }
@@ -14,6 +14,8 @@ void UDirectionalInteractionComponent::Interact()
 
 	FTimerHandle Handle;
 	GetWorld()->GetTimerManager().SetTimer(Handle, [this] {IsInteracting = false; }, 0.3f, false);
+
+	SetDirection(InteractionDirection);
 
 	if(!IsValid(Opponent)) { return; }
 	if (FVector::Distance(Opponent->GetOwner()->GetActorLocation(), GetOwner()->GetActorLocation()) < MaxDistance) { return; }
@@ -26,15 +28,18 @@ void UDirectionalInteractionComponent::Interact()
 		return;
 	}
 
-	if (Opponent->Direction == Direction && IsInteracting)
+	if (Opponent->Direction == EInteractionDirectionUtils::BlockingDirection(Direction))
 	{
-		OnInteractionDealt.Broadcast(Opponent, EInteractionResult::Clashed);
-		Opponent->OnInteractionReceived.Broadcast(this, EInteractionResult::Clashed);
-	}
-	else if (Opponent->Direction == EDirectionUtils::BlockingDirection(Direction))
-	{
-		OnInteractionDealt.Broadcast(Opponent, EInteractionResult::Blocked);
-		Opponent->OnInteractionReceived.Broadcast(this, EInteractionResult::Blocked);
+		if (Opponent->IsInteracting)
+		{
+			OnInteractionDealt.Broadcast(Opponent, EInteractionResult::Clashed);
+			Opponent->OnInteractionReceived.Broadcast(this, EInteractionResult::Clashed);
+		}
+		else
+		{
+			OnInteractionDealt.Broadcast(Opponent, EInteractionResult::Blocked);
+			Opponent->OnInteractionReceived.Broadcast(this, EInteractionResult::Blocked);
+		}
 	}
 	else
 	{
@@ -44,7 +49,7 @@ void UDirectionalInteractionComponent::Interact()
 
 }
 
-void UDirectionalInteractionComponent::SetDirection(EDirection NewDirection)
+void UDirectionalInteractionComponent::SetDirection(EInteractionDirection NewDirection)
 {
 
 	Direction = NewDirection;

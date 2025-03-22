@@ -2,7 +2,7 @@
 #include "CoreMinimal.h"
 
 UENUM(BlueprintType)
-enum EDirection : uint8
+enum EInteractionDirection : uint8
 {
     None,
     North,
@@ -11,9 +11,9 @@ enum EDirection : uint8
     West
 };
 
-namespace EDirectionUtils
+namespace EInteractionDirectionUtils
 {
-    static EDirection BlockingDirection(EDirection Direction)
+    static EInteractionDirection BlockingDirection(EInteractionDirection Direction)
     {
         switch (Direction)
         {
