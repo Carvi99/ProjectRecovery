@@ -21,7 +21,7 @@ public:
 	UDirectionalInteractionComponent();
 
 	UFUNCTION(BlueprintCallable)
-	void Interact(EInteractionDirection InteractionDirection);
+	void Interact(EInteractionDirection InteractionDirection, float Cooldown);
 
 	UFUNCTION(BlueprintCallable)
 	void SetDirection(EInteractionDirection NewDirection);
