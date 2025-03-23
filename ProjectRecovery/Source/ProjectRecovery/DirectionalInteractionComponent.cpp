@@ -18,10 +18,13 @@ void UDirectionalInteractionComponent::Interact(EInteractionDirection Interactio
 	SetDirection(InteractionDirection);
 
 	if(!IsValid(Opponent)) { return; }
+
 	if (FVector::Distance(Opponent->GetOwner()->GetActorLocation(), GetOwner()->GetActorLocation()) > MaxDistance) { return; }
 
-	// Interaction always successful if Forward Vectors align to an extent
-	if (Opponent->GetOwner()->GetActorForwardVector().Dot(GetOwner()->GetActorForwardVector()) > 0.5)
+	// Interaction always successful if Owning Actor is behind Opponent Actor
+	bool IsBehindOpponent = Opponent->GetOwner()->GetActorForwardVector().Dot(GetOwner()->GetActorForwardVector()) > 0.5;
+	IsBehindOpponent = IsBehindOpponent && (Opponent->GetOwner()->GetActorLocation() - GetOwner()->GetActorLocation()).GetSafeNormal().Dot(Opponent->GetOwner()->GetActorForwardVector()) > 0.5f;
+	if (IsBehindOpponent)
 	{
 		OnInteractionDealt.Broadcast(Opponent, EInteractionResult::Success);
 		Opponent->OnInteractionReceived.Broadcast(this, EInteractionResult::Success);
