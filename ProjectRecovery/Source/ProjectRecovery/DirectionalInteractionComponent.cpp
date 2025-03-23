@@ -52,7 +52,7 @@ void UDirectionalInteractionComponent::Interact(EInteractionDirection Interactio
 void UDirectionalInteractionComponent::SetDirection(EInteractionDirection NewDirection)
 {
 
-	Direction = NewDirection;
+	if (Direction == NewDirection) { return; }
 
 	if (OnDirectionChanged.IsBound())
 	{
@@ -63,6 +63,8 @@ void UDirectionalInteractionComponent::SetDirection(EInteractionDirection NewDir
 	{
 		Opponent->OnOpponentDirectionChange.Broadcast(Direction);
 	}
+
+	Direction = NewDirection;
 
 }
 
